@@ -53,13 +53,13 @@ export default function Home() {
 
           <div className="flex items-center gap-4">
             <Link
-              href="/login"
+              href="/auth?mode=login"
               className="text-sm font-medium text-slate-300 hover:text-white px-4 py-2.5 rounded-xl hover:bg-white/10 transition-colors"
             >
               Sign In
             </Link>
             <Link
-              href="/signup"
+              href="/auth?mode=signup"
               className="text-sm font-semibold px-6 py-2.5 rounded-xl bg-gradient-to-r from-indigo-600 via-purple-600 to-violet-600 text-white shadow-[0_0_25px_rgba(124,58,237,0.4)] border border-white/20 hover:scale-[1.03] active:scale-[0.98] transition-all duration-300"
             >
               Get Started
@@ -451,8 +451,8 @@ export default function Home() {
           </p>
 
           <div className="flex gap-6 text-slate-300">
-            <Link href="/login" className="hover:text-white transition-colors">Login</Link>
-            <Link href="/signup" className="hover:text-white transition-colors">Sign Up</Link>
+            <Link href="/auth?mode=login" className="hover:text-white transition-colors">Login</Link>
+            <Link href="/auth?mode=signup" className="hover:text-white transition-colors">Sign Up</Link>
             <Link href="/properties" className="hover:text-white transition-colors">Properties</Link>
             <Link href="/lawyer" className="hover:text-white transition-colors">Lawyers</Link>
           </div>
