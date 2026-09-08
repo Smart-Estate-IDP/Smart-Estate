@@ -203,29 +203,25 @@ export default function AuthForm({ initialMode = "login", initialRole = "USER" }
 
   return (
     <div className="w-full max-w-xl mx-auto">
-      {/* NEONMORPHIC OUTER ENCLOSURE */}
-      <div
-        className={`relative rounded-3xl p-6 sm:p-10 neonmorphic-card transition-all duration-500 ${
-          isLawyer ? "neonmorphic-card-purple" : "neonmorphic-card-cyan"
-        }`}
-      >
+      {/* NEUMORPHIC OUTER ENCLOSURE */}
+      <div className="relative rounded-[32px] p-6 sm:p-10 neu-raised bg-[#E2EAF1] transition-all duration-500">
         {/* Top Header & Role Indicator */}
         <div className="text-center mb-8">
           {/* Identity Switcher Ribbon */}
-          <div className="flex items-center justify-between p-2 rounded-2xl neonmorphic-inset mb-6">
+          <div className="flex items-center justify-between p-1.5 rounded-2xl neu-inset bg-[#D5DFE7] mb-6">
             <button
               type="button"
               onClick={() => {
                 setRole("USER");
                 setErrorMessage("");
               }}
-              className={`flex-1 py-2 px-3 rounded-xl text-xs font-bold transition-all duration-300 flex items-center justify-center gap-2 ${
+              className={`flex-1 py-2.5 px-3 rounded-xl text-xs font-bold transition-all duration-300 flex items-center justify-center gap-2 ${
                 !isLawyer
-                  ? "bg-cyan-500/20 text-cyan-300 border border-cyan-400/40 shadow-[0_0_15px_rgba(0,243,255,0.3)]"
-                  : "text-slate-400 hover:text-slate-200"
+                  ? "bg-[#E2EAF1] text-[#3155FF] shadow-[4px_4px_10px_rgba(140,160,185,0.5),-4px_-4px_10px_#FFFFFF]"
+                  : "text-slate-600 hover:text-slate-900"
               }`}
             >
-              <span>🏢</span>
+              <span className="text-base">🏢</span>
               <span>Client / User</span>
             </button>
 
@@ -235,39 +231,39 @@ export default function AuthForm({ initialMode = "login", initialRole = "USER" }
                 setRole("LAWYER");
                 setErrorMessage("");
               }}
-              className={`flex-1 py-2 px-3 rounded-xl text-xs font-bold transition-all duration-300 flex items-center justify-center gap-2 ${
+              className={`flex-1 py-2.5 px-3 rounded-xl text-xs font-bold transition-all duration-300 flex items-center justify-center gap-2 ${
                 isLawyer
-                  ? "bg-fuchsia-500/20 text-fuchsia-300 border border-fuchsia-400/40 shadow-[0_0_15px_rgba(192,38,211,0.3)]"
-                  : "text-slate-400 hover:text-slate-200"
+                  ? "bg-[#E2EAF1] text-indigo-600 shadow-[4px_4px_10px_rgba(140,160,185,0.5),-4px_-4px_10px_#FFFFFF]"
+                  : "text-slate-600 hover:text-slate-900"
               }`}
             >
-              <span>⚖️</span>
+              <span className="text-base">⚖️</span>
               <span>Legal Advisor</span>
             </button>
           </div>
 
           {/* Heading */}
-          <h1 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
+          <h1 className="text-2xl sm:text-3xl font-black text-slate-800 tracking-tight">
             {mode === "login" ? (
               <>
                 Sign In as{" "}
-                <span className={isLawyer ? "neon-text-purple" : "neon-text-cyan"}>
+                <span className={isLawyer ? "text-indigo-600" : "text-[#3155FF]"}>
                   {isLawyer ? "Legal Advocate" : "Property Client"}
                 </span>
               </>
             ) : (
               <>
                 Register as{" "}
-                <span className={isLawyer ? "neon-text-purple" : "neon-text-cyan"}>
+                <span className={isLawyer ? "text-indigo-600" : "text-[#3155FF]"}>
                   {isLawyer ? "Advocate Chamber" : "Property Client"}
                 </span>
               </>
             )}
           </h1>
-          <p className="text-xs sm:text-sm text-slate-400 mt-2">
+          <p className="text-xs sm:text-sm text-slate-600 mt-2">
             {mode === "login"
               ? isLawyer
-                ? "Access your deed audit queue, earnings, and legal opinions."
+                ? "Access your deed audit queue, fee earnings, and verification certificates."
                 : "Manage saved listings, deeds, and lawyer verification requests."
               : isLawyer
               ? "Join our certified legal panel to conduct property deed audits."
@@ -275,7 +271,7 @@ export default function AuthForm({ initialMode = "login", initialRole = "USER" }
           </p>
 
           {/* Mode Switcher Tabs (Sign In / Sign Up) */}
-          <div className="flex p-1 rounded-2xl neonmorphic-inset mt-6 max-w-xs mx-auto">
+          <div className="flex p-1.5 rounded-2xl neu-inset bg-[#D5DFE7] mt-6 max-w-xs mx-auto">
             <button
               type="button"
               onClick={() => {
@@ -286,9 +282,9 @@ export default function AuthForm({ initialMode = "login", initialRole = "USER" }
               className={`flex-1 py-2 text-xs font-bold rounded-xl transition-all duration-200 ${
                 mode === "login"
                   ? isLawyer
-                    ? "bg-gradient-to-r from-fuchsia-600 to-purple-600 text-white shadow-[0_0_15px_rgba(192,38,211,0.4)]"
-                    : "bg-gradient-to-r from-cyan-500 to-blue-600 text-slate-950 shadow-[0_0_15px_rgba(0,243,255,0.4)] font-extrabold"
-                  : "text-slate-400 hover:text-white"
+                    ? "bg-indigo-600 text-white shadow-[4px_4px_10px_rgba(79,70,229,0.35),-4px_-4px_10px_#FFFFFF]"
+                    : "bg-[#3155FF] text-white shadow-[4px_4px_10px_rgba(49,85,255,0.35),-4px_-4px_10px_#FFFFFF]"
+                  : "text-slate-600 hover:text-slate-900"
               }`}
             >
               Sign In
@@ -303,9 +299,9 @@ export default function AuthForm({ initialMode = "login", initialRole = "USER" }
               className={`flex-1 py-2 text-xs font-bold rounded-xl transition-all duration-200 ${
                 mode === "signup"
                   ? isLawyer
-                    ? "bg-gradient-to-r from-fuchsia-600 to-purple-600 text-white shadow-[0_0_15px_rgba(192,38,211,0.4)]"
-                    : "bg-gradient-to-r from-cyan-500 to-blue-600 text-slate-950 shadow-[0_0_15px_rgba(0,243,255,0.4)] font-extrabold"
-                  : "text-slate-400 hover:text-white"
+                    ? "bg-indigo-600 text-white shadow-[4px_4px_10px_rgba(79,70,229,0.35),-4px_-4px_10px_#FFFFFF]"
+                    : "bg-[#3155FF] text-white shadow-[4px_4px_10px_rgba(49,85,255,0.35),-4px_-4px_10px_#FFFFFF]"
+                  : "text-slate-600 hover:text-slate-900"
               }`}
             >
               Create Account
@@ -315,16 +311,16 @@ export default function AuthForm({ initialMode = "login", initialRole = "USER" }
 
         {/* Alerts */}
         {errorMessage && (
-          <div className="mb-6 p-4 rounded-2xl bg-rose-500/10 border border-rose-500/30 text-rose-300 text-xs flex items-start gap-3 shadow-[0_0_20px_rgba(244,63,94,0.15)] animate-fadeIn">
+          <div className="mb-6 p-4 rounded-2xl neu-inset bg-rose-50/80 border border-rose-200 text-rose-700 text-xs flex items-start gap-3 shadow-inner">
             <span className="text-base">⚠️</span>
-            <span>{errorMessage}</span>
+            <span className="font-medium">{errorMessage}</span>
           </div>
         )}
 
         {successMessage && (
-          <div className="mb-6 p-4 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-300 text-xs flex items-start gap-3 shadow-[0_0_20px_rgba(16,185,129,0.15)] animate-fadeIn">
+          <div className="mb-6 p-4 rounded-2xl neu-inset bg-emerald-50/80 border border-emerald-200 text-emerald-800 text-xs flex items-start gap-3 shadow-inner">
             <span className="text-base">✓</span>
-            <span>{successMessage}</span>
+            <span className="font-medium">{successMessage}</span>
           </div>
         )}
 
@@ -334,8 +330,8 @@ export default function AuthForm({ initialMode = "login", initialRole = "USER" }
           {mode === "signup" && (
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
-                <label className="block text-xs font-bold text-slate-300 mb-1.5 uppercase tracking-wider">
-                  Full Name <span className="text-rose-400">*</span>
+                <label className="block text-xs font-bold text-slate-700 mb-1.5 uppercase tracking-wider">
+                  Full Name <span className="text-rose-500">*</span>
                 </label>
                 <input
                   type="text"
@@ -343,14 +339,12 @@ export default function AuthForm({ initialMode = "login", initialRole = "USER" }
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                   placeholder={isLawyer ? "Adv. Rajesh Sharma" : "Sarah Jenkins"}
-                  className={`w-full px-4 py-3 rounded-xl neonmorphic-inset text-sm text-white placeholder:text-slate-600 ${
-                    isLawyer ? "neonmorphic-inset-purple" : "neonmorphic-inset-cyan"
-                  }`}
+                  className="w-full px-4 py-3 rounded-2xl neu-inset bg-[#D5DFE7] text-sm text-slate-800 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-[#3155FF]/40 transition-all font-medium"
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-bold text-slate-300 mb-1.5 uppercase tracking-wider">
+                <label className="block text-xs font-bold text-slate-700 mb-1.5 uppercase tracking-wider">
                   Phone (Optional)
                 </label>
                 <input
@@ -358,9 +352,7 @@ export default function AuthForm({ initialMode = "login", initialRole = "USER" }
                   value={phone}
                   onChange={(e) => setPhone(e.target.value)}
                   placeholder="+91 98765 43210"
-                  className={`w-full px-4 py-3 rounded-xl neonmorphic-inset text-sm text-white placeholder:text-slate-600 ${
-                    isLawyer ? "neonmorphic-inset-purple" : "neonmorphic-inset-cyan"
-                  }`}
+                  className="w-full px-4 py-3 rounded-2xl neu-inset bg-[#D5DFE7] text-sm text-slate-800 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-[#3155FF]/40 transition-all font-medium"
                 />
               </div>
             </div>
@@ -368,8 +360,8 @@ export default function AuthForm({ initialMode = "login", initialRole = "USER" }
 
           {/* Email */}
           <div>
-            <label className="block text-xs font-bold text-slate-300 mb-1.5 uppercase tracking-wider">
-              Email Address <span className="text-rose-400">*</span>
+            <label className="block text-xs font-bold text-slate-700 mb-1.5 uppercase tracking-wider">
+              Email Address <span className="text-rose-500">*</span>
             </label>
             <input
               type="email"
@@ -377,25 +369,21 @@ export default function AuthForm({ initialMode = "login", initialRole = "USER" }
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder={isLawyer ? "advocate@legalchamber.com" : "user@example.com"}
-              className={`w-full px-4 py-3 rounded-xl neonmorphic-inset text-sm text-white placeholder:text-slate-600 ${
-                isLawyer ? "neonmorphic-inset-purple" : "neonmorphic-inset-cyan"
-              }`}
+              className="w-full px-4 py-3 rounded-2xl neu-inset bg-[#D5DFE7] text-sm text-slate-800 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-[#3155FF]/40 transition-all font-medium"
             />
           </div>
 
           {/* Password */}
           <div>
             <div className="flex items-center justify-between mb-1.5">
-              <label className="block text-xs font-bold text-slate-300 uppercase tracking-wider">
-                Password <span className="text-rose-400">*</span>
+              <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider">
+                Password <span className="text-rose-500">*</span>
               </label>
               {mode === "login" && (
                 <button
                   type="button"
                   onClick={() => alert("Password reset instructions will be sent to your email.")}
-                  className={`text-xs transition-colors ${
-                    isLawyer ? "text-fuchsia-400 hover:text-fuchsia-300" : "text-cyan-400 hover:text-cyan-300"
-                  }`}
+                  className="text-xs text-[#3155FF] hover:underline font-semibold"
                 >
                   Forgot?
                 </button>
@@ -408,14 +396,12 @@ export default function AuthForm({ initialMode = "login", initialRole = "USER" }
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="••••••••"
-                className={`w-full pl-4 pr-11 py-3 rounded-xl neonmorphic-inset text-sm text-white placeholder:text-slate-600 ${
-                  isLawyer ? "neonmorphic-inset-purple" : "neonmorphic-inset-cyan"
-                }`}
+                className="w-full pl-4 pr-11 py-3 rounded-2xl neu-inset bg-[#D5DFE7] text-sm text-slate-800 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-[#3155FF]/40 transition-all font-medium"
               />
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
-                className="absolute inset-y-0 right-0 pr-3.5 flex items-center text-slate-500 hover:text-slate-200 transition-colors"
+                className="absolute inset-y-0 right-0 pr-3.5 flex items-center text-slate-500 hover:text-slate-800 transition-colors text-sm"
               >
                 {showPassword ? "👁️" : "🔒"}
               </button>
@@ -425,8 +411,8 @@ export default function AuthForm({ initialMode = "login", initialRole = "USER" }
           {/* Confirm Password (Signup only) */}
           {mode === "signup" && (
             <div>
-              <label className="block text-xs font-bold text-slate-300 mb-1.5 uppercase tracking-wider">
-                Confirm Password <span className="text-rose-400">*</span>
+              <label className="block text-xs font-bold text-slate-700 mb-1.5 uppercase tracking-wider">
+                Confirm Password <span className="text-rose-500">*</span>
               </label>
               <input
                 type={showPassword ? "text" : "password"}
@@ -434,25 +420,23 @@ export default function AuthForm({ initialMode = "login", initialRole = "USER" }
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
                 placeholder="••••••••"
-                className={`w-full px-4 py-3 rounded-xl neonmorphic-inset text-sm text-white placeholder:text-slate-600 ${
-                  isLawyer ? "neonmorphic-inset-purple" : "neonmorphic-inset-cyan"
-                }`}
+                className="w-full px-4 py-3 rounded-2xl neu-inset bg-[#D5DFE7] text-sm text-slate-800 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-[#3155FF]/40 transition-all font-medium"
               />
             </div>
           )}
 
           {/* LAWYER-SPECIFIC FIELDS */}
           {mode === "signup" && isLawyer && (
-            <div className="pt-4 border-t border-fuchsia-500/20 space-y-4 animate-fadeIn">
-              <div className="flex items-center gap-2 text-fuchsia-300 text-xs font-bold uppercase tracking-wider">
+            <div className="pt-4 border-t border-slate-300/60 space-y-4 animate-fadeIn">
+              <div className="flex items-center gap-2 text-indigo-700 text-xs font-bold uppercase tracking-wider">
                 <span>⚖️</span>
                 <span>Bar Council Enrollment & Chamber Details</span>
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-xs font-bold text-slate-300 mb-1.5 uppercase tracking-wider">
-                    Bar License No. <span className="text-rose-400">*</span>
+                  <label className="block text-xs font-bold text-slate-700 mb-1.5 uppercase tracking-wider">
+                    Bar License No. <span className="text-rose-500">*</span>
                   </label>
                   <input
                     type="text"
@@ -460,12 +444,12 @@ export default function AuthForm({ initialMode = "login", initialRole = "USER" }
                     value={licenseNumber}
                     onChange={(e) => setLicenseNumber(e.target.value)}
                     placeholder="BCI/DL/1234/2018"
-                    className="w-full px-4 py-3 rounded-xl neonmorphic-inset neonmorphic-inset-purple text-sm text-white placeholder:text-slate-600 uppercase"
+                    className="w-full px-4 py-3 rounded-2xl neu-inset bg-[#D5DFE7] text-sm text-slate-800 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500/40 transition-all uppercase font-medium"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-xs font-bold text-slate-300 mb-1.5 uppercase tracking-wider">
+                  <label className="block text-xs font-bold text-slate-700 mb-1.5 uppercase tracking-wider">
                     Years of Experience
                   </label>
                   <input
@@ -474,17 +458,17 @@ export default function AuthForm({ initialMode = "login", initialRole = "USER" }
                     max="50"
                     value={experienceYears}
                     onChange={(e) => setExperienceYears(Number(e.target.value))}
-                    className="w-full px-4 py-3 rounded-xl neonmorphic-inset neonmorphic-inset-purple text-sm text-white"
+                    className="w-full px-4 py-3 rounded-2xl neu-inset bg-[#D5DFE7] text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500/40 transition-all font-medium"
                   />
                 </div>
               </div>
 
               <div>
-                <label className="block text-xs font-bold text-slate-300 mb-1.5 uppercase tracking-wider">
-                  Audit Fee per Title Deed (₹ INR) <span className="text-rose-400">*</span>
+                <label className="block text-xs font-bold text-slate-700 mb-1.5 uppercase tracking-wider">
+                  Audit Fee per Title Deed (₹ INR) <span className="text-rose-500">*</span>
                 </label>
                 <div className="relative">
-                  <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-fuchsia-400 font-bold">
+                  <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-indigo-600 font-bold">
                     ₹
                   </div>
                   <input
@@ -494,16 +478,16 @@ export default function AuthForm({ initialMode = "login", initialRole = "USER" }
                     required
                     value={verificationFee}
                     onChange={(e) => setVerificationFee(Number(e.target.value))}
-                    className="w-full pl-8 pr-4 py-3 rounded-xl neonmorphic-inset neonmorphic-inset-purple text-sm text-white"
+                    className="w-full pl-8 pr-4 py-3 rounded-2xl neu-inset bg-[#D5DFE7] text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500/40 transition-all font-medium"
                   />
                 </div>
-                <p className="text-[11px] text-slate-400 mt-1">
+                <p className="text-[11px] text-slate-500 mt-1">
                   Custom verification rate charged to property buyers per comprehensive title search.
                 </p>
               </div>
 
               <div>
-                <label className="block text-xs font-bold text-slate-300 mb-2 uppercase tracking-wider">
+                <label className="block text-xs font-bold text-slate-700 mb-2 uppercase tracking-wider">
                   Legal Specializations
                 </label>
                 <div className="flex flex-wrap gap-2">
@@ -514,10 +498,10 @@ export default function AuthForm({ initialMode = "login", initialRole = "USER" }
                         key={spec}
                         type="button"
                         onClick={() => toggleSpecialization(spec)}
-                        className={`text-xs px-3 py-1.5 rounded-xl border transition-all duration-200 ${
+                        className={`text-xs px-3.5 py-1.5 rounded-xl font-medium transition-all duration-200 ${
                           isSelected
-                            ? "bg-fuchsia-600/30 border-fuchsia-400 text-white font-medium shadow-[0_0_12px_rgba(192,38,211,0.4)]"
-                            : "bg-white/[0.02] border-white/10 text-slate-400 hover:text-white"
+                            ? "bg-indigo-600 text-white shadow-[3px_3px_8px_rgba(79,70,229,0.35),-3px_-3px_8px_#FFFFFF]"
+                            : "neu-btn bg-[#E2EAF1] text-slate-700 hover:text-slate-900"
                         }`}
                       >
                         {isSelected ? "✓ " : "+ "}
@@ -538,21 +522,23 @@ export default function AuthForm({ initialMode = "login", initialRole = "USER" }
                 id="agreeTerms"
                 checked={agreeTerms}
                 onChange={(e) => setAgreeTerms(e.target.checked)}
-                className="mt-1 w-4 h-4 rounded border-white/20 bg-black/40 text-cyan-500 focus:ring-cyan-500 cursor-pointer"
+                className="mt-1 w-4 h-4 rounded border-slate-300 text-[#3155FF] focus:ring-[#3155FF] cursor-pointer"
               />
-              <label htmlFor="agreeTerms" className="text-xs text-slate-400 leading-relaxed cursor-pointer select-none">
-                I agree to the <span className="text-slate-200 underline">SmartEstate Legal Platform Terms</span> and{" "}
-                <span className="text-slate-200 underline">Privacy Policy</span>.
+              <label htmlFor="agreeTerms" className="text-xs text-slate-600 leading-relaxed cursor-pointer select-none">
+                I agree to the <span className="text-slate-900 font-semibold underline">SmartEstate Legal Platform Terms</span> and{" "}
+                <span className="text-slate-900 font-semibold underline">Privacy Policy</span>.
               </label>
             </div>
           )}
 
-          {/* TACTILE NEON SUBMIT BUTTON */}
+          {/* NEUMORPHIC PRIMARY SUBMIT BUTTON */}
           <button
             type="submit"
             disabled={loading}
-            className={`w-full mt-6 py-3.5 px-6 rounded-2xl font-black text-sm tracking-wide transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 ${
-              isLawyer ? "neon-btn-purple" : "neon-btn-cyan"
+            className={`w-full mt-6 py-4 px-6 rounded-2xl font-bold text-sm tracking-wide text-white transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 ${
+              isLawyer
+                ? "bg-indigo-600 shadow-[6px_6px_16px_rgba(79,70,229,0.4),-6px_-6px_16px_#FFFFFF] hover:brightness-110 active:scale-[0.98]"
+                : "neu-btn-primary bg-[#3155FF] shadow-[6px_6px_16px_rgba(49,85,255,0.4),-6px_-6px_16px_#FFFFFF] hover:brightness-110 active:scale-[0.98]"
             }`}
           >
             {loading ? (
@@ -568,8 +554,8 @@ export default function AuthForm({ initialMode = "login", initialRole = "USER" }
         </form>
 
         {/* Footer info & Choose Role Gateway Link */}
-        <div className="mt-8 pt-6 border-t border-white/10 text-center flex flex-col items-center gap-3">
-          <p className="text-xs text-slate-400">
+        <div className="mt-8 pt-6 border-t border-slate-300/60 text-center flex flex-col items-center gap-3">
+          <p className="text-xs text-slate-600">
             {mode === "login" ? "Need a new account? " : "Already registered? "}
             <button
               type="button"
@@ -579,7 +565,7 @@ export default function AuthForm({ initialMode = "login", initialRole = "USER" }
                 setSuccessMessage("");
               }}
               className={`font-bold transition-colors ml-1 ${
-                isLawyer ? "text-fuchsia-300 hover:text-white" : "text-cyan-300 hover:text-white"
+                isLawyer ? "text-indigo-600 hover:underline" : "text-[#3155FF] hover:underline"
               }`}
             >
               {mode === "login" ? "Create one now" : "Sign In here"}
@@ -588,10 +574,10 @@ export default function AuthForm({ initialMode = "login", initialRole = "USER" }
 
           <Link
             href="/auth"
-            className="text-[11px] text-slate-500 hover:text-slate-300 transition-colors inline-flex items-center gap-1.5 mt-2"
+            className="neu-btn px-4 py-2 rounded-full text-[11px] font-bold text-slate-600 hover:text-slate-900 transition-all inline-flex items-center gap-1.5 mt-2"
           >
             <span>↔</span>
-            <span>Switch Portal Selection</span>
+            <span>Switch Role Selection</span>
           </Link>
         </div>
       </div>
