@@ -98,7 +98,7 @@ export default function Home() {
           {/* CTA Button Group */}
           <div className="mt-9 flex flex-wrap items-center justify-center gap-4">
             <Link
-              href="/signup"
+              href="/auth?mode=signup"
               className="px-8 py-4 rounded-full neu-btn-primary font-bold text-sm sm:text-base tracking-wide flex items-center gap-2"
             >
               <span>Get Started - Sign Up Free</span>
@@ -253,7 +253,7 @@ export default function Home() {
 
                 <div className="pt-2">
                   <Link
-                    href="/signup"
+                    href="/auth?mode=signup"
                     className="inline-flex items-center gap-2 px-6 py-3 rounded-full neu-btn-primary text-xs font-bold"
                   >
                     <span>Request Property Audit</span>
@@ -658,13 +658,13 @@ export default function Home() {
 
             <div className="pt-4 flex flex-wrap justify-center gap-4">
               <Link
-                href="/signup"
+                href="/auth?mode=signup"
                 className="px-9 py-4 rounded-full neu-btn-primary font-bold text-sm sm:text-base tracking-wide"
               >
                 Create Account (Sign Up Free)
               </Link>
               <Link
-                href="/login"
+                href="/auth?mode=login"
                 className="px-9 py-4 rounded-full neu-btn-secondary font-bold text-sm sm:text-base text-slate-700"
               >
                 Log In to Portal

@@ -1,5 +1,6 @@
 "use client";
 
+import React from "react";
 import Link from "next/link";
 
 export default function Footer() {
@@ -129,12 +130,12 @@ export default function Footer() {
             </h4>
             <ul className="space-y-2 text-xs font-medium text-slate-500">
               <li>
-                <Link href="/signup" className="text-[#3155FF] font-bold hover:underline">
+                <Link href="/auth?mode=signup" className="text-[#3155FF] font-bold hover:underline">
                   Create Account (Free)
                 </Link>
               </li>
               <li>
-                <Link href="/login" className="hover:text-[#3155FF] transition-colors">
+                <Link href="/auth?mode=login" className="hover:text-[#3155FF] transition-colors">
                   Client Portal Login
                 </Link>
               </li>

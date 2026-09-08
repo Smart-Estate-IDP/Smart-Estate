@@ -3,13 +3,14 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
+    "dev": "next dev --webpack",
+    "build": "next build --webpack",
     "start": "next start",
     "lint": "eslint"
   },
   "dependencies": {
     "bcryptjs": "^3.0.3",
+    "caniuse-lite": "^1.0.30001810",
     "jose": "^6.2.12",
     "jsonwebtoken": "^9.0.3",
     "mongoose": "^9.9.5",

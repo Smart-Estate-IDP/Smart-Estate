@@ -1,12 +1,59 @@
 "use client";
 
-import { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 
 export default function Navbar() {
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const router = useRouter();
   const pathname = usePathname();
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [user, setUser] = useState<{
+    name: string;
+    email: string;
+    role: "USER" | "LAWYER" | "ADMIN";
+  } | null>(null);
+
+  useEffect(() => {
+    // Check localStorage first for instant hydration
+    const savedUser = localStorage.getItem("smartestate_user");
+    if (savedUser) {
+      try {
+        setUser(JSON.parse(savedUser));
+      } catch (e) {
+        console.error(e);
+      }
+    }
+
+    // Verify session with server
+    fetch("/api/auth/me")
+      .then((res) => {
+        if (res.ok) return res.json();
+        return null;
+      })
+      .then((data) => {
+        if (data && data.success && data.user) {
+          setUser(data.user);
+          localStorage.setItem("smartestate_user", JSON.stringify(data.user));
+        } else {
+          localStorage.removeItem("smartestate_user");
+          setUser(null);
+        }
+      })
+      .catch(() => {});
+  }, [pathname]);
+
+  const handleLogout = async () => {
+    try {
+      await fetch("/api/auth/logout", { method: "POST" });
+    } catch (e) {
+      console.error("Logout error", e);
+    }
+    localStorage.removeItem("smartestate_user");
+    setUser(null);
+    router.push("/");
+    router.refresh();
+  };
 
   const navLinks = [
     {
@@ -115,33 +162,61 @@ export default function Navbar() {
           })}
         </nav>
 
-        {/* Right Action Controls: Log In & Sign Up */}
+        {/* Right Action Controls: User Profile or Sign In / Sign Up */}
         <div className="hidden sm:flex items-center gap-3">
-          <Link
-            href="/login"
-            className="px-5 py-2.5 text-xs font-bold rounded-full neu-btn-secondary text-slate-700 hover:text-slate-900"
-          >
-            Log In
-          </Link>
-          <Link
-            href="/signup"
-            className="px-6 py-2.5 text-xs font-bold rounded-full neu-btn-primary tracking-wide flex items-center gap-1.5"
-          >
-            <span>Sign Up Free</span>
-            <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3" />
-            </svg>
-          </Link>
+          {user ? (
+            <div className="flex items-center gap-3">
+              <Link
+                href={user.role === "LAWYER" ? "/lawyer" : user.role === "ADMIN" ? "/admin" : "/dashboard"}
+                className="flex items-center gap-2.5 px-4 py-2 rounded-full neu-raised text-xs font-bold text-slate-800 hover:text-[#3155FF] transition-all"
+              >
+                <div className="w-6 h-6 rounded-full bg-gradient-to-tr from-[#3155FF] to-[#287BFF] flex items-center justify-center text-white text-[10px] font-extrabold">
+                  {user.name ? user.name.charAt(0).toUpperCase() : "U"}
+                </div>
+                <span>{user.name || "My Account"}</span>
+                <span className="text-[10px] text-[#3155FF] font-semibold">
+                  ({user.role === "LAWYER" ? "Advocate" : user.role === "ADMIN" ? "Admin" : "Client"})
+                </span>
+              </Link>
+              <button
+                onClick={handleLogout}
+                className="px-3.5 py-2 text-xs font-bold rounded-full neu-btn-secondary text-slate-500 hover:text-rose-600 transition-colors"
+                title="Sign Out"
+              >
+                Sign Out
+              </button>
+            </div>
+          ) : (
+            <>
+              <Link
+                href="/auth?mode=login"
+                className="px-5 py-2.5 text-xs font-bold rounded-full neu-btn-secondary text-slate-700 hover:text-slate-900"
+              >
+                Sign In
+              </Link>
+              <Link
+                href="/auth?mode=signup"
+                className="px-6 py-2.5 text-xs font-bold rounded-full neu-btn-primary tracking-wide flex items-center gap-1.5"
+              >
+                <span>Get Started</span>
+                <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                </svg>
+              </Link>
+            </>
+          )}
         </div>
 
         {/* Mobile Hamburger Toggle */}
         <div className="flex lg:hidden items-center gap-2">
-          <Link
-            href="/signup"
-            className="px-3.5 py-1.5 rounded-full text-xs font-bold neu-btn-primary"
-          >
-            Sign Up
-          </Link>
+          {!user && (
+            <Link
+              href="/auth?mode=signup"
+              className="px-3.5 py-1.5 rounded-full text-xs font-bold neu-btn-primary"
+            >
+              Sign Up
+            </Link>
+          )}
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             className="w-10 h-10 rounded-2xl neu-inset flex items-center justify-center text-slate-600 hover:text-slate-900 active:scale-95 transition-all"
@@ -176,20 +251,43 @@ export default function Navbar() {
             </Link>
           ))}
           <div className="pt-3 border-t border-slate-200/80 flex flex-col gap-2.5">
-            <Link
-              href="/login"
-              onClick={() => setMobileMenuOpen(false)}
-              className="w-full text-center py-3 rounded-2xl neu-btn-secondary text-xs font-bold text-slate-700"
-            >
-              Log In
-            </Link>
-            <Link
-              href="/signup"
-              onClick={() => setMobileMenuOpen(false)}
-              className="w-full text-center py-3 rounded-2xl neu-btn-primary text-xs font-bold tracking-wide"
-            >
-              Create Account (Sign Up Free)
-            </Link>
+            {user ? (
+              <>
+                <Link
+                  href={user.role === "LAWYER" ? "/lawyer" : user.role === "ADMIN" ? "/admin" : "/dashboard"}
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="w-full text-center py-3 rounded-2xl neu-raised text-xs font-bold text-[#3155FF]"
+                >
+                  My Dashboard ({user.role})
+                </Link>
+                <button
+                  onClick={() => {
+                    setMobileMenuOpen(false);
+                    handleLogout();
+                  }}
+                  className="w-full text-center py-2 text-rose-600 text-xs font-bold"
+                >
+                  Sign Out
+                </button>
+              </>
+            ) : (
+              <>
+                <Link
+                  href="/auth?mode=login"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="w-full text-center py-3 rounded-2xl neu-btn-secondary text-xs font-bold text-slate-700"
+                >
+                  Sign In
+                </Link>
+                <Link
+                  href="/auth?mode=signup"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="w-full text-center py-3 rounded-2xl neu-btn-primary text-xs font-bold tracking-wide"
+                >
+                  Create Account (Get Started)
+                </Link>
+              </>
+            )}
           </div>
         </div>
       )}
