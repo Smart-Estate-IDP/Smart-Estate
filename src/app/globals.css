@@ -3,6 +3,9 @@
 :root {
   --background: #050714;
   --foreground: #f8fafc;
+  --neon-cyan: #00f3ff;
+  --neon-purple: #c026d3;
+  --neon-emerald: #10b981;
 }
 
 body {
@@ -34,6 +37,138 @@ body {
   background: rgba(255, 255, 255, 0.07);
   backdrop-filter: blur(16px);
   border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+/* =======================================================
+   NEONMORPHISM DESIGN SYSTEM
+   Dark tactile embossed surfaces with electric neon energy
+   ======================================================= */
+
+/* Extruded Neumorphic Card */
+.neonmorphic-card {
+  background: linear-gradient(145deg, #0d1024 0%, #070915 100%);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 
+    14px 14px 32px #030409, 
+    -10px -10px 28px rgba(255, 255, 255, 0.02),
+    inset 1px 1px 1px rgba(255, 255, 255, 0.08);
+  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Neon Cyan State (Client Theme) */
+.neonmorphic-card-cyan {
+  border-color: rgba(0, 243, 255, 0.3);
+  box-shadow: 
+    14px 14px 32px #030409, 
+    -8px -8px 24px rgba(255, 255, 255, 0.02),
+    0 0 25px rgba(0, 243, 255, 0.2),
+    inset 0 0 15px rgba(0, 243, 255, 0.08);
+}
+.neonmorphic-card-cyan:hover {
+  border-color: rgba(0, 243, 255, 0.7);
+  box-shadow: 
+    16px 16px 36px #030409, 
+    0 0 35px rgba(0, 243, 255, 0.35),
+    inset 0 0 20px rgba(0, 243, 255, 0.15);
+  transform: translateY(-2px);
+}
+
+/* Neon Purple/Magenta State (Lawyer Theme) */
+.neonmorphic-card-purple {
+  border-color: rgba(192, 38, 211, 0.3);
+  box-shadow: 
+    14px 14px 32px #030409, 
+    -8px -8px 24px rgba(255, 255, 255, 0.02),
+    0 0 25px rgba(192, 38, 211, 0.2),
+    inset 0 0 15px rgba(192, 38, 211, 0.08);
+}
+.neonmorphic-card-purple:hover {
+  border-color: rgba(192, 38, 211, 0.7);
+  box-shadow: 
+    16px 16px 36px #030409, 
+    0 0 35px rgba(192, 38, 211, 0.35),
+    inset 0 0 20px rgba(192, 38, 211, 0.15);
+  transform: translateY(-2px);
+}
+
+/* Inset Neumorphic Input */
+.neonmorphic-inset {
+  background: #070914;
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  box-shadow: 
+    inset 4px 4px 8px #020307, 
+    inset -3px -3px 6px rgba(255, 255, 255, 0.03);
+  transition: all 0.25s ease;
+}
+
+.neonmorphic-inset-cyan:focus-within,
+.neonmorphic-inset-cyan:focus {
+  border-color: #00f3ff;
+  box-shadow: 
+    inset 3px 3px 6px #020307, 
+    0 0 15px rgba(0, 243, 255, 0.35);
+  outline: none;
+}
+
+.neonmorphic-inset-purple:focus-within,
+.neonmorphic-inset-purple:focus {
+  border-color: #c026d3;
+  box-shadow: 
+    inset 3px 3px 6px #020307, 
+    0 0 15px rgba(192, 38, 211, 0.35);
+  outline: none;
+}
+
+/* Tactile Neon Buttons */
+.neon-btn-cyan {
+  background: linear-gradient(135deg, #00f3ff 0%, #0284c7 100%);
+  color: #030712;
+  box-shadow: 
+    0 0 25px rgba(0, 243, 255, 0.45),
+    6px 6px 14px #030408,
+    -4px -4px 10px rgba(255, 255, 255, 0.03);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.neon-btn-cyan:hover {
+  box-shadow: 
+    0 0 35px rgba(0, 243, 255, 0.65),
+    8px 8px 18px #030408;
+  transform: scale(1.02);
+}
+.neon-btn-cyan:active {
+  transform: scale(0.98);
+  box-shadow: inset 2px 2px 6px rgba(0,0,0,0.5), 0 0 15px rgba(0, 243, 255, 0.3);
+}
+
+.neon-btn-purple {
+  background: linear-gradient(135deg, #d946ef 0%, #7e22ce 100%);
+  color: #ffffff;
+  box-shadow: 
+    0 0 25px rgba(192, 38, 211, 0.45),
+    6px 6px 14px #030408,
+    -4px -4px 10px rgba(255, 255, 255, 0.03);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.neon-btn-purple:hover {
+  box-shadow: 
+    0 0 35px rgba(192, 38, 211, 0.65),
+    8px 8px 18px #030408;
+  transform: scale(1.02);
+}
+.neon-btn-purple:active {
+  transform: scale(0.98);
+  box-shadow: inset 2px 2px 6px rgba(0,0,0,0.5), 0 0 15px rgba(192, 38, 211, 0.3);
+}
+
+/* Neon Text Glow */
+.neon-text-cyan {
+  color: #00f3ff;
+  text-shadow: 0 0 12px rgba(0, 243, 255, 0.6);
+}
+
+.neon-text-purple {
+  color: #d946ef;
+  text-shadow: 0 0 12px rgba(217, 70, 239, 0.6);
 }
 
 /* Keyframe Animations */
