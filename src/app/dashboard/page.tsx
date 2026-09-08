@@ -2,8 +2,6 @@
 
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
-import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
 import { useRouter } from "next/navigation";
 
 export default function DashboardPage() {
@@ -47,9 +45,7 @@ export default function DashboardPage() {
   }
 
   return (
-    <div className="relative min-h-screen flex flex-col bg-gradient-to-br from-[#050714] via-[#0d0f28] via-[#1a103c] to-[#070618] text-slate-100 font-sans">
-      <Navbar />
-
+    <div className="relative min-h-[calc(100vh-140px)] flex flex-col font-sans">
       <main className="relative z-10 flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-10">
         {/* Welcome Banner */}
         <div className="relative rounded-3xl p-8 glass-panel border border-white/10 overflow-hidden mb-8">
@@ -190,8 +186,6 @@ export default function DashboardPage() {
           </div>
         </div>
       </main>
-
-      <Footer />
     </div>
   );
 }
