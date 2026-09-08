@@ -1,34 +1,19 @@
-import Image from "next/image";
 import Link from "next/link";
 
 export default function Home() {
   return (
-    <div className="relative min-h-screen bg-gradient-to-br from-[#050714] via-[#0d0f28] via-[#1a103c] to-[#070618] text-slate-100 font-sans selection:bg-purple-500 selection:text-white overflow-hidden">
-      {/* Background Atmospheric Glow Orbs */}
-      <div className="absolute top-[-10%] left-[20%] w-[600px] h-[600px] bg-indigo-600/20 rounded-full blur-[140px] pointer-events-none animate-pulse-glow" />
-      <div className="absolute top-[30%] right-[-5%] w-[550px] h-[550px] bg-purple-600/20 rounded-full blur-[160px] pointer-events-none" />
-      <div className="absolute top-[60%] left-[-10%] w-[650px] h-[650px] bg-violet-600/15 rounded-full blur-[180px] pointer-events-none" />
-      <div className="absolute bottom-[-10%] right-[25%] w-[700px] h-[700px] bg-sky-500/15 rounded-full blur-[170px] pointer-events-none animate-pulse-glow" />
-
-      {/* Navigation Bar */}
-      <header className="sticky top-0 z-50 backdrop-blur-2xl bg-white/[0.03] border-b border-white/10 transition-all duration-300">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
-          <Link href="/" className="flex items-center gap-3.5 group">
-            <div className="w-11 h-11 rounded-2xl bg-gradient-to-tr from-indigo-500 via-purple-500 to-sky-400 p-[1px] shadow-lg shadow-purple-500/30 group-hover:scale-105 transition-transform duration-300">
-              <div className="w-full h-full bg-slate-950/90 rounded-[15px] flex items-center justify-center backdrop-blur-sm">
-                <svg className="w-6 h-6 text-purple-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
-                </svg>
-              </div>
-            </div>
-            <div className="flex flex-col">
-              <span className="font-extrabold text-2xl tracking-tight bg-gradient-to-r from-white via-indigo-100 to-purple-200 bg-clip-text text-transparent">
-                SmartEstate
-              </span>
-              <span className="text-[10px] tracking-[0.25em] uppercase font-bold text-indigo-300/80">
-                AI & Legal Verification
-              </span>
-            </div>
+    <div className="min-h-screen bg-slate-950 text-white flex flex-col items-center justify-center p-6">
+      <div className="text-center space-y-6 max-w-md">
+        <h1 className="text-3xl font-bold tracking-tight">SmartEstate</h1>
+        <p className="text-slate-400 text-sm">
+          Welcome! Click below to create an account.
+        </p>
+        <div>
+          <Link
+            href="/signup"
+            className="inline-flex items-center justify-center px-6 py-3 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-semibold shadow-lg transition-all"
+          >
+            Sign Up
           </Link>
 
           <nav className="hidden md:flex items-center gap-8 text-sm font-medium text-slate-300">
@@ -457,7 +442,8 @@ export default function Home() {
             <Link href="/lawyer" className="hover:text-white transition-colors">Lawyers</Link>
           </div>
         </div>
-      </footer>
+      </div>
     </div>
   );
 }
+
