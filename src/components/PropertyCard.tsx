@@ -45,7 +45,7 @@ export default function PropertyCard({
   };
 
   return (
-    <div className="group rounded-[24px] neu-raised p-4 transition-all duration-300 hover:-translate-y-1.5 flex flex-col justify-between border border-white/80">
+    <div className="group rounded-[24px] neu-raised p-4 transition-all duration-300 hover:-translate-y-1.5 flex flex-col justify-between border border-white/80 h-full">
       <div className="space-y-3.5">
         {/* Image Container with Inset Frame */}
         <div className="relative w-full h-52 rounded-[20px] overflow-hidden neu-inset p-1">

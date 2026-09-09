@@ -129,7 +129,13 @@ export default function AuthForm({ initialMode = "login", initialRole = "USER" }
         }
 
         if (typeof window !== "undefined" && data.user) {
-          localStorage.setItem("smartestate_user", JSON.stringify(data.user));
+          if (data.token) {
+            sessionStorage.setItem("smartestate_token", data.token);
+          }
+          sessionStorage.setItem("smartestate_user", JSON.stringify(data.user));
+          localStorage.removeItem("smartestate_user");
+          localStorage.removeItem("smartestate_token");
+          window.dispatchEvent(new Event("tab-auth-changed"));
         }
 
         setSuccessMessage(`Welcome back, ${data.user.name}! Redirecting...`);
@@ -176,7 +182,13 @@ export default function AuthForm({ initialMode = "login", initialRole = "USER" }
         }
 
         if (typeof window !== "undefined" && data.user) {
-          localStorage.setItem("smartestate_user", JSON.stringify(data.user));
+          if (data.token) {
+            sessionStorage.setItem("smartestate_token", data.token);
+          }
+          sessionStorage.setItem("smartestate_user", JSON.stringify(data.user));
+          localStorage.removeItem("smartestate_user");
+          localStorage.removeItem("smartestate_token");
+          window.dispatchEvent(new Event("tab-auth-changed"));
         }
 
         setSuccessMessage(

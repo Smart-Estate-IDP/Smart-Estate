@@ -11,7 +11,15 @@ export default function LawyerPortalPage() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch("/api/auth/me")
+    const tabToken = typeof window !== "undefined" ? sessionStorage.getItem("smartestate_token") : null;
+    if (!tabToken) {
+      router.push("/login?redirect=/lawyer");
+      return;
+    }
+
+    fetch("/api/auth/me", {
+      headers: { Authorization: `Bearer ${tabToken}` },
+    })
       .then((res) => {
         if (!res.ok) throw new Error("Unauthorized");
         return res.json();
@@ -24,11 +32,16 @@ export default function LawyerPortalPage() {
           }
           setUser(data.user);
           setLawyerProfile(data.lawyerProfile);
+          sessionStorage.setItem("smartestate_user", JSON.stringify(data.user));
         } else {
+          sessionStorage.removeItem("smartestate_token");
+          sessionStorage.removeItem("smartestate_user");
           router.push("/login?redirect=/lawyer");
         }
       })
       .catch(() => {
+        sessionStorage.removeItem("smartestate_token");
+        sessionStorage.removeItem("smartestate_user");
         router.push("/login?redirect=/lawyer");
       })
       .finally(() => setLoading(false));

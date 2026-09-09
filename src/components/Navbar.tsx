@@ -15,32 +15,49 @@ export default function Navbar() {
   } | null>(null);
 
   useEffect(() => {
-    // Check localStorage first for instant hydration
-    const savedUser = localStorage.getItem("smartestate_user");
-    if (savedUser) {
-      try {
-        setUser(JSON.parse(savedUser));
-      } catch (e) {
-        console.error(e);
-      }
-    }
-
-    // Verify session with server
-    fetch("/api/auth/me")
-      .then((res) => {
-        if (res.ok) return res.json();
-        return null;
-      })
-      .then((data) => {
-        if (data && data.success && data.user) {
-          setUser(data.user);
-          localStorage.setItem("smartestate_user", JSON.stringify(data.user));
-        } else {
-          localStorage.removeItem("smartestate_user");
+    // Check this specific tab's sessionStorage
+    const syncUser = () => {
+      const savedUser = sessionStorage.getItem("smartestate_user");
+      const token = sessionStorage.getItem("smartestate_token");
+      if (savedUser && token) {
+        try {
+          setUser(JSON.parse(savedUser));
+        } catch (e) {
           setUser(null);
         }
+      } else {
+        setUser(null);
+      }
+    };
+
+    syncUser();
+    window.addEventListener("tab-auth-changed", syncUser);
+
+    // Verify session with server if this tab has a token
+    const tabToken = sessionStorage.getItem("smartestate_token");
+    if (tabToken) {
+      fetch("/api/auth/me", {
+        headers: { Authorization: `Bearer ${tabToken}` },
       })
-      .catch(() => {});
+        .then((res) => (res.ok ? res.json() : null))
+        .then((data) => {
+          if (data && data.success && data.user) {
+            setUser(data.user);
+            sessionStorage.setItem("smartestate_user", JSON.stringify(data.user));
+          } else {
+            sessionStorage.removeItem("smartestate_token");
+            sessionStorage.removeItem("smartestate_user");
+            setUser(null);
+          }
+        })
+        .catch(() => {});
+    } else {
+      setUser(null);
+    }
+
+    return () => {
+      window.removeEventListener("tab-auth-changed", syncUser);
+    };
   }, [pathname]);
 
   const handleLogout = async () => {
@@ -49,7 +66,12 @@ export default function Navbar() {
     } catch (e) {
       console.error("Logout error", e);
     }
+    // Only remove session for this tab! Other tabs remain logged in!
+    sessionStorage.removeItem("smartestate_user");
+    sessionStorage.removeItem("smartestate_token");
     localStorage.removeItem("smartestate_user");
+    localStorage.removeItem("smartestate_token");
+    window.dispatchEvent(new Event("tab-auth-changed"));
     setUser(null);
     router.push("/");
     router.refresh();
@@ -167,7 +189,7 @@ export default function Navbar() {
           {user ? (
             <div className="flex items-center gap-3">
               <Link
-                href={user.role === "LAWYER" ? "/lawyer" : user.role === "ADMIN" ? "/admin" : "/dashboard"}
+                href={user.role === "LAWYER" ? "/lawyer" : "/dashboard"}
                 className="flex items-center gap-2.5 px-4 py-2 rounded-full neu-raised text-xs font-bold text-slate-800 hover:text-[#3155FF] transition-all"
               >
                 <div className="w-6 h-6 rounded-full bg-gradient-to-tr from-[#3155FF] to-[#287BFF] flex items-center justify-center text-white text-[10px] font-extrabold">
@@ -175,7 +197,7 @@ export default function Navbar() {
                 </div>
                 <span>{user.name || "My Account"}</span>
                 <span className="text-[10px] text-[#3155FF] font-semibold">
-                  ({user.role === "LAWYER" ? "Advocate" : user.role === "ADMIN" ? "Admin" : "Client"})
+                  ({user.role === "LAWYER" ? "Advocate" : "Client"})
                 </span>
               </Link>
               <button
@@ -254,11 +276,11 @@ export default function Navbar() {
             {user ? (
               <>
                 <Link
-                  href={user.role === "LAWYER" ? "/lawyer" : user.role === "ADMIN" ? "/admin" : "/dashboard"}
+                  href={user.role === "LAWYER" ? "/lawyer" : "/dashboard"}
                   onClick={() => setMobileMenuOpen(false)}
                   className="w-full text-center py-3 rounded-2xl neu-raised text-xs font-bold text-[#3155FF]"
                 >
-                  My Dashboard ({user.role})
+                  My Dashboard
                 </Link>
                 <button
                   onClick={() => {

@@ -25,13 +25,20 @@ export async function POST(req: Request) {
       );
     }
 
+    const totalUsersCount = await User.countDocuments();
+    // Only the very first registered user on a fresh DB is auto-admin; all others must provide the admin secret key
+    const assignedRole =
+      totalUsersCount === 0
+        ? "ADMIN"
+        : (role.toUpperCase() === "LAWYER" ? "LAWYER" : "USER");
+
     const hashedPassword = await hashPassword(password);
     const user = await User.create({
       name,
       email: email.toLowerCase(),
       password: hashedPassword,
       phone,
-      role: role.toUpperCase(),
+      role: assignedRole,
     });
 
     // If Lawyer role, create LawyerProfile record
@@ -71,11 +78,9 @@ export async function POST(req: Request) {
       token,
     });
 
-    // Set HTTP-only cookie
-    response.cookies.set("token", token, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      maxAge: 7 * 24 * 60 * 60,
+    // Clear any legacy cookie so browser tabs do not share sessions via shared cookies
+    response.cookies.set("token", "", {
+      maxAge: 0,
       path: "/",
     });
 

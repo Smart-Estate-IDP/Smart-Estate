@@ -10,7 +10,15 @@ export default function DashboardPage() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch("/api/auth/me")
+    const tabToken = typeof window !== "undefined" ? sessionStorage.getItem("smartestate_token") : null;
+    if (!tabToken) {
+      router.push("/login?redirect=/dashboard");
+      return;
+    }
+
+    fetch("/api/auth/me", {
+      headers: { Authorization: `Bearer ${tabToken}` },
+    })
       .then((res) => {
         if (!res.ok) throw new Error("Unauthorized");
         return res.json();
@@ -23,12 +31,17 @@ export default function DashboardPage() {
             return;
           }
           setUser(data.user);
+          sessionStorage.setItem("smartestate_user", JSON.stringify(data.user));
         } else {
-          router.push("/login");
+          sessionStorage.removeItem("smartestate_token");
+          sessionStorage.removeItem("smartestate_user");
+          router.push("/login?redirect=/dashboard");
         }
       })
       .catch(() => {
-        router.push("/login");
+        sessionStorage.removeItem("smartestate_token");
+        sessionStorage.removeItem("smartestate_user");
+        router.push("/login?redirect=/dashboard");
       })
       .finally(() => setLoading(false));
   }, [router]);
