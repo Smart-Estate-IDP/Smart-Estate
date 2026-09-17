@@ -129,24 +129,30 @@ export default function AuthForm({ initialMode = "login", initialRole = "USER" }
         }
 
         if (typeof window !== "undefined" && data.user) {
+          if (data.token) {
+            sessionStorage.setItem("smartestate_token", data.token);
+            localStorage.setItem("smartestate_token", data.token);
+            document.cookie = `token=${data.token}; path=/; max-age=604800; SameSite=Lax`;
+          }
+          sessionStorage.setItem("smartestate_user", JSON.stringify(data.user));
           localStorage.setItem("smartestate_user", JSON.stringify(data.user));
+          window.dispatchEvent(new Event("tab-auth-changed"));
         }
 
-        setSuccessMessage(`Welcome back, ${data.user.name}! Redirecting...`);
+        setSuccessMessage(`Welcome back, ${data.user.name}! Redirecting to your dashboard...`);
 
         const redirectUrl = searchParams.get("redirect");
+        const targetUrl = redirectUrl
+          ? redirectUrl
+          : data.user.role === "LAWYER"
+          ? "/lawyer"
+          : data.user.role === "ADMIN"
+          ? "/admin"
+          : "/dashboard";
+
         setTimeout(() => {
-          if (redirectUrl) {
-            router.push(redirectUrl);
-          } else if (data.user.role === "LAWYER") {
-            router.push("/lawyer");
-          } else if (data.user.role === "ADMIN") {
-            router.push("/admin");
-          } else {
-            router.push("/dashboard");
-          }
-          router.refresh();
-        }, 900);
+          window.location.href = targetUrl;
+        }, 500);
       } else {
         const payload: any = {
           name: name.trim(),
@@ -176,23 +182,32 @@ export default function AuthForm({ initialMode = "login", initialRole = "USER" }
         }
 
         if (typeof window !== "undefined" && data.user) {
+          if (data.token) {
+            sessionStorage.setItem("smartestate_token", data.token);
+            localStorage.setItem("smartestate_token", data.token);
+            document.cookie = `token=${data.token}; path=/; max-age=604800; SameSite=Lax`;
+          }
+          sessionStorage.setItem("smartestate_user", JSON.stringify(data.user));
           localStorage.setItem("smartestate_user", JSON.stringify(data.user));
+          window.dispatchEvent(new Event("tab-auth-changed"));
         }
 
+        const destination =
+          data.user.role === "LAWYER"
+            ? "/lawyer"
+            : data.user.role === "ADMIN"
+            ? "/admin"
+            : "/dashboard";
+
         setSuccessMessage(
-          isLawyer
-            ? "Advocate chamber registered! Redirecting to Lawyer Dashboard..."
-            : "Client account created! Redirecting to Dashboard..."
+          data.user.role === "LAWYER"
+            ? "Advocate chamber registered! Redirecting to Lawyer Chamber..."
+            : "Account created successfully! Redirecting to Dashboard..."
         );
 
         setTimeout(() => {
-          if (isLawyer) {
-            router.push("/lawyer");
-          } else {
-            router.push("/dashboard");
-          }
-          router.refresh();
-        }, 1000);
+          window.location.href = destination;
+        }, 600);
       }
     } catch (err: any) {
       setErrorMessage(err.message || "An unexpected error occurred.");

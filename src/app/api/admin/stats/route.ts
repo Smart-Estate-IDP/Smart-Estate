@@ -15,9 +15,10 @@ export async function GET(req: NextRequest) {
 
     await connectDB();
 
-    const [totalUsers, totalLawyers, verifiedLawyers, totalProperties, publishedProperties, verificationRequests] =
+    const [totalUsers, totalAdmins, totalLawyers, verifiedLawyers, totalProperties, publishedProperties, verificationRequests] =
       await Promise.all([
         User.countDocuments({ role: "USER" }),
+        User.countDocuments({ role: "ADMIN" }),
         LawyerProfile.countDocuments(),
         LawyerProfile.countDocuments({ verified: true }),
         Property.countDocuments(),
@@ -29,6 +30,7 @@ export async function GET(req: NextRequest) {
       success: true,
       stats: {
         totalUsers,
+        totalAdmins,
         totalLawyers,
         verifiedLawyers,
         totalProperties,

@@ -51,11 +51,12 @@ export async function POST(req: Request) {
       token,
     });
 
+    // Set token cookie for server components and page navigations
     response.cookies.set("token", token, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      maxAge: 7 * 24 * 60 * 60,
+      maxAge: 60 * 60 * 24 * 7, // 7 days
       path: "/",
+      sameSite: "lax",
+      httpOnly: false,
     });
 
     return response;

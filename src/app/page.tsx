@@ -2,8 +2,7 @@
 
 import Link from "next/link";
 import SearchBar from "@/components/SearchBar";
-import PropertyCard from "@/components/PropertyCard";
-import { NeuProgress } from "@/components/NeumorphicUI";
+import PropertySlider from "@/components/PropertySlider";
 
 export default function Home() {
   const featuredProperties = [
@@ -51,6 +50,81 @@ export default function Home() {
         "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=800&q=80",
       lawyerName: "Adv. Kunal Malhotra (Delhi HC)",
       auditScore: 95,
+    },
+    {
+      id: "prop-4",
+      title: "Marina Bay Luxury Seafront Residence",
+      location: "Marine Drive, Kochi, Kerala",
+      price: 31000000,
+      bedrooms: 3,
+      bathrooms: 3,
+      area: 2400,
+      propertyType: "Seafront Condo",
+      verificationStatus: "VERIFIED" as const,
+      imageUrl:
+        "https://images.unsplash.com/photo-1600566753376-12c8ab7fb75b?auto=format&fit=crop&w=800&q=80",
+      lawyerName: "Adv. Ananya Iyer (Kerala HC)",
+      auditScore: 98,
+    },
+    {
+      id: "prop-5",
+      title: "The Royal Grand Heritage Estate",
+      location: "Jubilee Hills, Hyderabad, Telangana",
+      price: 75000000,
+      bedrooms: 5,
+      bathrooms: 6,
+      area: 5600,
+      propertyType: "Heritage Villa",
+      verificationStatus: "VERIFIED" as const,
+      imageUrl:
+        "https://images.unsplash.com/photo-1600585154526-990dced4db0d?auto=format&fit=crop&w=800&q=80",
+      lawyerName: "Adv. Venkatesh Rao (Telangana HC)",
+      auditScore: 99,
+    },
+    {
+      id: "prop-6",
+      title: "Pinnacle Panorama Skyline Suite",
+      location: "Koregaon Park, Pune, Maharashtra",
+      price: 19500000,
+      bedrooms: 3,
+      bathrooms: 2,
+      area: 1850,
+      propertyType: "Skyline Suite",
+      verificationStatus: "VERIFIED" as const,
+      imageUrl:
+        "https://images.unsplash.com/photo-1600573472591-ee6b68d14c68?auto=format&fit=crop&w=800&q=80",
+      lawyerName: "Adv. Priya Kulkarni (Bombay HC)",
+      auditScore: 96,
+    },
+    {
+      id: "prop-7",
+      title: "Whispering Pines Contemporary Manor",
+      location: "ECR Beach Road, Chennai, Tamil Nadu",
+      price: 38000000,
+      bedrooms: 4,
+      bathrooms: 4,
+      area: 3400,
+      propertyType: "Beachfront Villa",
+      verificationStatus: "VERIFIED" as const,
+      imageUrl:
+        "https://images.unsplash.com/photo-1613490493576-7fde63acd811?auto=format&fit=crop&w=800&q=80",
+      lawyerName: "Adv. S. Ramanathan (Madras HC)",
+      auditScore: 98,
+    },
+    {
+      id: "prop-8",
+      title: "Silver Oak Forest View Residence",
+      location: "Alipore, Kolkata, West Bengal",
+      price: 29000000,
+      bedrooms: 3,
+      bathrooms: 3,
+      area: 2200,
+      propertyType: "Apartment",
+      verificationStatus: "VERIFIED" as const,
+      imageUrl:
+        "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=800&q=80",
+      lawyerName: "Adv. Subhash Chatterjee (Calcutta HC)",
+      auditScore: 97,
     },
   ];
 
@@ -117,40 +191,12 @@ export default function Home() {
               <span>Explore Verified Homes</span>
             </Link>
           </div>
-
-          {/* Statistics Strip in Neumorphic Cards */}
-          <div className="mt-16 grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 max-w-5xl mx-auto text-center">
-            <div className="p-5 rounded-[22px] neu-raised space-y-1 border border-white/80">
-              <p className="text-2xl sm:text-4xl font-black text-slate-800">5,000+</p>
-              <p className="text-xs sm:text-sm text-slate-500 font-bold uppercase tracking-wider">
-                Verified Properties
-              </p>
-            </div>
-            <div className="p-5 rounded-[22px] neu-raised space-y-1 border border-white/80">
-              <p className="text-2xl sm:text-4xl font-black text-emerald-600">100%</p>
-              <p className="text-xs sm:text-sm text-slate-500 font-bold uppercase tracking-wider">
-                Title Guarantee
-              </p>
-            </div>
-            <div className="p-5 rounded-[22px] neu-raised space-y-1 border border-white/80">
-              <p className="text-2xl sm:text-4xl font-black text-[#3155FF]">150+</p>
-              <p className="text-xs sm:text-sm text-slate-500 font-bold uppercase tracking-wider">
-                Advocate Partners
-              </p>
-            </div>
-            <div className="p-5 rounded-[22px] neu-raised space-y-1 border border-white/80">
-              <p className="text-2xl sm:text-4xl font-black text-indigo-600">24-Hour</p>
-              <p className="text-xs sm:text-sm text-slate-500 font-bold uppercase tracking-wider">
-                Audit Turnaround
-              </p>
-            </div>
-          </div>
         </section>
 
         {/* ========================================================
             SEARCH & FILTER COMPONENT
            ======================================================== */}
-        <section className="max-w-6xl mx-auto px-4 -mt-4 mb-20">
+        <section className="max-w-6xl mx-auto px-4 mt-8 mb-20">
           <SearchBar />
         </section>
 
@@ -181,179 +227,10 @@ export default function Home() {
             </Link>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {featuredProperties.map((property) => (
-              <PropertyCard key={property.id} {...property} />
-            ))}
-          </div>
+          <PropertySlider properties={featuredProperties} autoSlideInterval={3500} />
         </section>
 
-        {/* ========================================================
-            INTERACTIVE LIVE DEED AUDIT PREVIEW WIDGET (DASHBOARD PREVIEW)
-           ======================================================== */}
-        <section className="py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="rounded-[32px] neu-raised p-8 sm:p-12 border border-white/90">
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
-              
-              {/* Left Explainer */}
-              <div className="lg:col-span-5 space-y-6">
-                <span className="px-3.5 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider neu-inset text-emerald-600">
-                  Proprietary Verification Engine
-                </span>
-                <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-800 leading-tight">
-                  How Our Dual AI & Advocate Audit Works
-                </h2>
-                <p className="text-sm text-slate-600 leading-relaxed font-medium">
-                  We don&apos;t just list homes. Our deep-learning scanner extracts and cross-checks mother deeds against state land registries, while licensed High Court advocates inspect municipal building sanctions and tax receipts.
-                </p>
 
-                <div className="space-y-3.5">
-                  <div className="flex items-start gap-3 p-3.5 rounded-2xl neu-inset">
-                    <span className="w-6 h-6 rounded-full bg-emerald-500 text-white flex items-center justify-center text-xs font-bold shrink-0 mt-0.5">
-                      ✓
-                    </span>
-                    <div>
-                      <h4 className="text-xs font-bold text-slate-800 uppercase">
-                        30-Year Title Search
-                      </h4>
-                      <p className="text-xs text-slate-500 font-medium">
-                        Complete unbroken ownership chain without missing inheritance links.
-                      </p>
-                    </div>
-                  </div>
-
-                  <div className="flex items-start gap-3 p-3.5 rounded-2xl neu-inset">
-                    <span className="w-6 h-6 rounded-full bg-emerald-500 text-white flex items-center justify-center text-xs font-bold shrink-0 mt-0.5">
-                      ✓
-                    </span>
-                    <div>
-                      <h4 className="text-xs font-bold text-slate-800 uppercase">
-                        Nil Encumbrance Certificate
-                      </h4>
-                      <p className="text-xs text-slate-500 font-medium">
-                        Certified absence of active bank mortgages, court attachments, or disputes.
-                      </p>
-                    </div>
-                  </div>
-
-                  <div className="flex items-start gap-3 p-3.5 rounded-2xl neu-inset">
-                    <span className="w-6 h-6 rounded-full bg-emerald-500 text-white flex items-center justify-center text-xs font-bold shrink-0 mt-0.5">
-                      ✓
-                    </span>
-                    <div>
-                      <h4 className="text-xs font-bold text-slate-800 uppercase">
-                        RERA & Municipal Clearances
-                      </h4>
-                      <p className="text-xs text-slate-500 font-medium">
-                        Verified Commencement Certificate (CC) and Occupancy Certificate (OC).
-                      </p>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="pt-2">
-                  <Link
-                    href="/auth?mode=signup"
-                    className="inline-flex items-center gap-2 px-6 py-3 rounded-full neu-btn-primary text-xs font-bold"
-                  >
-                    <span>Request Property Audit</span>
-                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7" />
-                    </svg>
-                  </Link>
-                </div>
-              </div>
-
-              {/* Right Live Simulated Neumorphic Dashboard Widget */}
-              <div className="lg:col-span-7">
-                <div className="rounded-[28px] neu-raised-lg p-6 sm:p-8 space-y-6 border border-white">
-                  
-                  {/* Widget Header */}
-                  <div className="flex flex-wrap items-center justify-between gap-2 pb-4 border-b border-slate-200/80">
-                    <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 rounded-2xl neu-inset flex items-center justify-center text-[#3155FF]">
-                        📜
-                      </div>
-                      <div>
-                        <h4 className="text-sm font-extrabold text-slate-800">
-                          Deed Audit Report #SE-98421
-                        </h4>
-                        <p className="text-xs text-slate-500 font-medium">
-                          Property: Emerald Bay Apt 1402, Mumbai
-                        </p>
-                      </div>
-                    </div>
-                    <span className="px-3 py-1 rounded-full text-xs font-extrabold bg-emerald-50 text-emerald-600 border border-emerald-200">
-                      STATUS: 100% CLEAR
-                    </span>
-                  </div>
-
-                  {/* Score & Gauge Section */}
-                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                    <div className="p-4 rounded-2xl neu-inset text-center space-y-1">
-                      <span className="text-[11px] font-bold text-slate-500 uppercase">
-                        AI Safety Score
-                      </span>
-                      <p className="text-2xl font-black text-emerald-600">99.4%</p>
-                      <span className="text-[10px] text-slate-400 font-semibold">
-                        Zero Anomalies
-                      </span>
-                    </div>
-
-                    <div className="p-4 rounded-2xl neu-inset text-center space-y-1">
-                      <span className="text-[11px] font-bold text-slate-500 uppercase">
-                        Litigation Search
-                      </span>
-                      <p className="text-2xl font-black text-slate-800">0 Stays</p>
-                      <span className="text-[10px] text-emerald-600 font-semibold">
-                        Clean Court Record
-                      </span>
-                    </div>
-
-                    <div className="p-4 rounded-2xl neu-inset text-center space-y-1">
-                      <span className="text-[11px] font-bold text-slate-500 uppercase">
-                        Encumbrance
-                      </span>
-                      <p className="text-2xl font-black text-[#3155FF]">NIL</p>
-                      <span className="text-[10px] text-slate-400 font-semibold">
-                        No Active Mortgages
-                      </span>
-                    </div>
-                  </div>
-
-                  {/* Progress Items */}
-                  <div className="space-y-3">
-                    <NeuProgress value={100} label="Mother Deed Chain (1994 - 2024)" color="emerald" />
-                    <NeuProgress value={100} label="RERA & Municipal Zoning Check" color="blue" />
-                    <NeuProgress value={95} label="Property Tax & Utility NOCs" color="blue" />
-                  </div>
-
-                  {/* Assigned Lawyer Card in Inset Well */}
-                  <div className="p-4 rounded-2xl neu-inset flex items-center justify-between gap-4">
-                    <div className="flex items-center gap-3">
-                      <div className="w-11 h-11 rounded-full neu-raised flex items-center justify-center text-base font-bold text-[#3155FF]">
-                        ⚖️
-                      </div>
-                      <div>
-                        <p className="text-xs font-bold text-slate-800">
-                          Audited by Adv. Vikramaditya Sen
-                        </p>
-                        <p className="text-[11px] text-slate-500 font-medium">
-                          Senior Property Advocate, 18 Yrs Experience
-                        </p>
-                      </div>
-                    </div>
-                    <span className="text-xs font-bold text-[#3155FF] underline cursor-pointer">
-                      View Signature
-                    </span>
-                  </div>
-
-                </div>
-              </div>
-
-            </div>
-          </div>
-        </section>
 
         {/* ========================================================
             KEY ADVANTAGES & LEGAL PROTECTION (6 CARDS)
@@ -484,97 +361,7 @@ export default function Home() {
           </div>
         </section>
 
-        {/* ========================================================
-            COMPARISON MATRIX SECTION
-           ======================================================== */}
-        <section className="py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center max-w-3xl mx-auto space-y-4 mb-16">
-            <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-800">
-              Traditional Real Estate vs.{" "}
-              <span className="text-[#3155FF]">SmartEstate</span>
-            </h2>
-            <p className="text-slate-500 text-sm sm:text-base font-medium">
-              See why modern property buyers and institutional investors trust our verified digital platform.
-            </p>
-          </div>
 
-          <div className="rounded-[28px] neu-raised overflow-hidden p-3 border border-white/80">
-            <div className="overflow-x-auto">
-              <table className="w-full text-left border-collapse">
-                <thead>
-                  <tr className="border-b border-slate-200/80">
-                    <th className="p-4 sm:p-5 text-xs font-extrabold text-slate-500 uppercase tracking-wider">
-                      Key Transaction Feature
-                    </th>
-                    <th className="p-4 sm:p-5 text-xs font-extrabold text-rose-600 uppercase tracking-wider bg-rose-50/50 rounded-2xl">
-                      Traditional Real Estate
-                    </th>
-                    <th className="p-4 sm:p-5 text-xs font-extrabold text-emerald-600 uppercase tracking-wider bg-emerald-50/50 rounded-2xl">
-                      SmartEstate Platform
-                    </th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-slate-200/60 text-xs sm:text-sm font-medium">
-                  <tr>
-                    <td className="p-4 sm:p-5 font-bold text-slate-800">
-                      Title Deed Verification
-                    </td>
-                    <td className="p-4 sm:p-5 text-slate-500">
-                      Buyer bears full burden; unverified or superficial agent checks.
-                    </td>
-                    <td className="p-4 sm:p-5 text-emerald-700 font-bold bg-emerald-50/30">
-                      ✓ 100% Advocate Audited Before Property is Listed
-                    </td>
-                  </tr>
-                  <tr>
-                    <td className="p-4 sm:p-5 font-bold text-slate-800">
-                      Token Money Safety
-                    </td>
-                    <td className="p-4 sm:p-5 text-slate-500">
-                      High risk of non-refundable deposit forfeiture if title has disputes.
-                    </td>
-                    <td className="p-4 sm:p-5 text-emerald-700 font-bold bg-emerald-50/30">
-                      ✓ 100% Refundable Digital Legal Escrow Protection
-                    </td>
-                  </tr>
-                  <tr>
-                    <td className="p-4 sm:p-5 font-bold text-slate-800">
-                      Deed Audit Speed
-                    </td>
-                    <td className="p-4 sm:p-5 text-slate-500">
-                      3 to 6 weeks of tedious physical visits to sub-registrar offices.
-                    </td>
-                    <td className="p-4 sm:p-5 text-emerald-700 font-bold bg-emerald-50/30">
-                      ✓ Instant AI Screening + 24-Hour Advocate Review
-                    </td>
-                  </tr>
-                  <tr>
-                    <td className="p-4 sm:p-5 font-bold text-slate-800">
-                      Legal Consultation Access
-                    </td>
-                    <td className="p-4 sm:p-5 text-slate-500">
-                      Expensive retainers and fragmented local legal advice.
-                    </td>
-                    <td className="p-4 sm:p-5 text-emerald-700 font-bold bg-emerald-50/30">
-                      ✓ On-Demand High Court Advocates Panel with Flat Pricing
-                    </td>
-                  </tr>
-                  <tr>
-                    <td className="p-4 sm:p-5 font-bold text-slate-800">
-                      Property Fraud Protection
-                    </td>
-                    <td className="p-4 sm:p-5 text-slate-500">
-                      Vulnerable to double sale deeds, forged mutation, and family stays.
-                    </td>
-                    <td className="p-4 sm:p-5 text-emerald-700 font-bold bg-emerald-50/30">
-                      ✓ Full Encumbrance & Digital Certificate Guarantee
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </section>
 
         {/* ========================================================
             HOW IT WORKS SECTION (4 STEPS)
