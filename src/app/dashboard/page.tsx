@@ -3,6 +3,7 @@
 import React, { useEffect, useState, useCallback } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import UserImageManager from "@/components/UserImageManager";
 
 interface UserProfile {
   _id: string;
@@ -30,7 +31,7 @@ export default function DashboardPage() {
   const router = useRouter();
   const [user, setUser] = useState<UserProfile | null>(null);
   const [loading, setLoading] = useState(true);
-  const [activeTab, setActiveTab] = useState<"overview" | "saved" | "audits" | "security">("overview");
+  const [activeTab, setActiveTab] = useState<"overview" | "saved" | "media" | "audits" | "security">("overview");
 
   // Profile Edit State
   const [isEditing, setIsEditing] = useState(false);
@@ -41,6 +42,8 @@ export default function DashboardPage() {
 
   // Sample or Fetched Properties
   const [recentProperties, setRecentProperties] = useState<SavedPropertyPreview[]>([]);
+  const [myProperties, setMyProperties] = useState<any[]>([]);
+  const [selectedPropId, setSelectedPropId] = useState<string>("");
 
   const fetchSession = useCallback(async () => {
     try {
@@ -103,6 +106,22 @@ export default function DashboardPage() {
       })
       .catch(() => {});
   }, [fetchSession]);
+
+  useEffect(() => {
+    if (user?._id) {
+      fetch(`/api/properties?ownerId=${user._id}&status=ALL`)
+        .then((res) => res.json())
+        .then((d) => {
+          if (d.success && Array.isArray(d.properties)) {
+            setMyProperties(d.properties);
+            if (d.properties.length > 0) {
+              setSelectedPropId(d.properties[0]._id);
+            }
+          }
+        })
+        .catch(() => {});
+    }
+  }, [user?._id]);
 
   const handleUpdateProfile = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -380,7 +399,7 @@ export default function DashboardPage() {
               <span className="text-xl">🏡</span>
             </div>
             <p className="text-2xl sm:text-3xl font-black text-slate-800">
-              0
+              {myProperties.length}
             </p>
             <span className="text-[10px] text-slate-500 font-medium">Active Properties for Sale</span>
           </div>
@@ -391,6 +410,7 @@ export default function DashboardPage() {
           {[
             { id: "overview", label: "Profile Overview", icon: "👤" },
             { id: "saved", label: `Watchlist (${user?.savedProperties?.length || 0})`, icon: "❤️" },
+            { id: "media", label: `Property Photos (${myProperties.length})`, icon: "📸" },
             { id: "audits", label: "Legal Document Audits", icon: "⚖️" },
             { id: "security", label: "Security & Credentials", icon: "🛡️" },
           ].map((tab) => (
@@ -611,6 +631,64 @@ export default function DashboardPage() {
                     </Link>
                   </div>
                 ))}
+              </div>
+            )}
+          </section>
+        )}
+
+        {/* TAB: PROPERTY MEDIA / IMAGES */}
+        {activeTab === "media" && (
+          <section className="space-y-6">
+            {myProperties.length === 0 ? (
+              <div className="p-10 rounded-[28px] neu-raised border border-white/90 text-center space-y-4 max-w-xl mx-auto">
+                <div className="w-16 h-16 rounded-2xl neu-inset mx-auto flex items-center justify-center text-3xl">
+                  📸
+                </div>
+                <h3 className="text-lg font-bold text-slate-800">No Properties Listed Yet</h3>
+                <p className="text-xs text-slate-500 leading-relaxed">
+                  You haven&apos;t listed any properties for sale yet. Once you create a listing, you can upload multiple high-resolution photos, adjust captions, and track administrative gallery approval.
+                </p>
+                <Link
+                  href="/sell"
+                  className="inline-flex items-center gap-2 px-6 py-3 rounded-full neu-btn-primary text-xs font-bold"
+                >
+                  <span>+</span> List Your Property Now
+                </Link>
+              </div>
+            ) : (
+              <div className="space-y-6">
+                {/* Property Selector Bar */}
+                <div className="p-6 rounded-[24px] neu-raised border border-white/90 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+                  <div className="space-y-0.5">
+                    <h2 className="text-base font-extrabold text-slate-800 flex items-center gap-2">
+                      <span>📸</span> Property Photo &amp; Gallery Center
+                    </h2>
+                    <p className="text-xs text-slate-500">
+                      Upload photos, set captions, and view administrative approval &amp; visibility status.
+                    </p>
+                  </div>
+                  <div className="flex items-center gap-3 w-full sm:w-auto">
+                    <label className="text-xs font-bold text-slate-600 shrink-0">Selected Listing:</label>
+                    <select
+                      value={selectedPropId}
+                      onChange={(e) => setSelectedPropId(e.target.value)}
+                      className="px-4 py-2.5 rounded-xl neu-inset text-xs font-bold text-slate-800 outline-none w-full sm:w-72 bg-transparent"
+                    >
+                      {myProperties.map((p) => (
+                        <option key={p._id} value={p._id}>
+                          {p.title} ({p.location?.city || "Active"})
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                </div>
+
+                {selectedPropId && (
+                  <UserImageManager
+                    propertyId={selectedPropId}
+                    propertyTitle={myProperties.find((p) => p._id === selectedPropId)?.title}
+                  />
+                )}
               </div>
             )}
           </section>

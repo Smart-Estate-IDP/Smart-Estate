@@ -3,6 +3,7 @@
 import React, { useState, useEffect, useCallback } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import AdminGalleryTab from "@/components/AdminGalleryTab";
 
 interface UserData {
   _id: string;
@@ -67,7 +68,7 @@ export default function AdminPage() {
   const [showClaimSecret, setShowClaimSecret] = useState(false);
 
   // Admin Dashboard State
-  const [activeTab, setActiveTab] = useState<"overview" | "properties" | "lawyers" | "users">("overview");
+  const [activeTab, setActiveTab] = useState<"overview" | "properties" | "gallery" | "lawyers" | "users">("overview");
   const [stats, setStats] = useState<AdminStats | null>(null);
   const [properties, setProperties] = useState<PropertyData[]>([]);
   const [lawyers, setLawyers] = useState<LawyerData[]>([]);
@@ -604,6 +605,7 @@ export default function AdminPage() {
           {[
             { id: "overview", label: "Overview & Health", icon: "📊" },
             { id: "properties", label: `Properties (${properties.length})`, icon: "🏡" },
+            { id: "gallery", label: "Image Moderation", icon: "📸" },
             { id: "lawyers", label: `Lawyers Panel (${lawyers.length})`, icon: "⚖️" },
             { id: "users", label: `Users Directory (${users.length})`, icon: "👥" },
           ].map((tab) => (
@@ -1185,6 +1187,9 @@ export default function AdminPage() {
             )}
           </section>
         )}
+
+        {/* TAB 5: PROPERTY IMAGE GALLERY MODERATION */}
+        {activeTab === "gallery" && <AdminGalleryTab />}
 
       </div>
     </div>

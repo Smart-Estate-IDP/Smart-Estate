@@ -3,6 +3,8 @@ import { connectDB } from "@/lib/mongodb";
 import Property from "@/models/Property";
 import { getAuthUser } from "@/lib/auth";
 
+import PropertyImage from "@/models/PropertyImage";
+
 // GET /api/properties/[id]
 export async function GET(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
@@ -14,7 +16,23 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ id: 
       return NextResponse.json({ success: false, message: "Property not found" }, { status: 404 });
     }
 
-    return NextResponse.json({ success: true, property });
+    // Only fetch APPROVED and VISIBLE images for public view
+    const approvedImages = await PropertyImage.find({
+      propertyId: id,
+      status: "APPROVED",
+      isVisible: true,
+    })
+      .select("url isMain caption displayOrder")
+      .sort({ isMain: -1, displayOrder: 1, createdAt: 1 });
+
+    const propertyObj: any = property.toObject();
+    propertyObj.gallery = approvedImages;
+    if (approvedImages.length > 0) {
+      const mainImg = approvedImages.find((img) => img.isMain) || approvedImages[0];
+      propertyObj.primaryImage = mainImg.url;
+    }
+
+    return NextResponse.json({ success: true, property: propertyObj });
   } catch (error: any) {
     return NextResponse.json(
       { success: false, message: error.message || "Failed to fetch property details" },

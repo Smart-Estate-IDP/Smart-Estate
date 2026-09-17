@@ -5,7 +5,20 @@ import { comparePassword, signToken } from "@/lib/auth";
 
 export async function POST(req: Request) {
   try {
-    await connectDB();
+    try {
+      await connectDB();
+    } catch (dbErr: any) {
+      console.error("Database connection error in login:", dbErr.message);
+      return NextResponse.json(
+        {
+          success: false,
+          message:
+            "Database connection failed. Please ensure your IP address is whitelisted on MongoDB Atlas (Network Access -> Add IP Address).",
+        },
+        { status: 503 }
+      );
+    }
+
     const body = await req.json();
     const { email, password } = body;
 

@@ -15,8 +15,13 @@ export async function GET(req: NextRequest) {
     const minPrice = searchParams.get("minPrice");
     const maxPrice = searchParams.get("maxPrice");
     const status = searchParams.get("status") || "PUBLISHED";
+    const ownerId = searchParams.get("ownerId");
 
     const filter: any = {};
+
+    if (ownerId) {
+      filter.ownerId = ownerId;
+    }
 
     if (status !== "ALL") {
       filter.status = status;
