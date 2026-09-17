@@ -4,13 +4,17 @@ import { useEffect } from "react";
 
 export default function TabSessionProvider() {
   useEffect(() => {
-    // 1. Clean up legacy shared localStorage tokens to prevent cross-tab bleeding
+    // 1. Hydrate sessionStorage from localStorage if this tab is freshly opened or reloaded
     try {
-      localStorage.removeItem("smartestate_user");
-      localStorage.removeItem("smartestate_token");
-      // Clear legacy global cookie if present
-      document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-    } catch (e) {
+      if (!sessionStorage.getItem("smartestate_token")) {
+        const localToken = localStorage.getItem("smartestate_token");
+        const localUser = localStorage.getItem("smartestate_user");
+        if (localToken && localUser) {
+          sessionStorage.setItem("smartestate_token", localToken);
+          sessionStorage.setItem("smartestate_user", localUser);
+        }
+      }
+    } catch {
       // ignore in environments where storage is restricted
     }
 

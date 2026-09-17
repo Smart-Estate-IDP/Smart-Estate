@@ -51,10 +51,12 @@ export async function POST(req: Request) {
       token,
     });
 
-    // Clear any legacy cookie so browser tabs do not share sessions via shared cookies
-    response.cookies.set("token", "", {
-      maxAge: 0,
+    // Set token cookie for server components and page navigations
+    response.cookies.set("token", token, {
+      maxAge: 60 * 60 * 24 * 7, // 7 days
       path: "/",
+      sameSite: "lax",
+      httpOnly: false,
     });
 
     return response;

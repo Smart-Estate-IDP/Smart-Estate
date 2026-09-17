@@ -26,6 +26,7 @@ export interface IProperty extends Document {
   amenities: string[];
   status: PropertyStatus;
   verificationStatus: VerificationStatus;
+  isFeatured?: boolean;
   images: string[];
   createdAt: Date;
   updatedAt: Date;
@@ -65,6 +66,10 @@ const PropertySchema = new Schema<IProperty>(
       type: String,
       enum: ["UNVERIFIED", "IN_PROGRESS", "VERIFIED", "REJECTED"],
       default: "UNVERIFIED",
+    },
+    isFeatured: {
+      type: Boolean,
+      default: false,
     },
     images: [{ type: String }],
   },

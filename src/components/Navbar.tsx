@@ -15,14 +15,18 @@ export default function Navbar() {
   } | null>(null);
 
   useEffect(() => {
-    // Check this specific tab's sessionStorage
+    // Check this tab's sessionStorage or localStorage fallback
     const syncUser = () => {
-      const savedUser = sessionStorage.getItem("smartestate_user");
-      const token = sessionStorage.getItem("smartestate_token");
+      const token =
+        sessionStorage.getItem("smartestate_token") ||
+        localStorage.getItem("smartestate_token");
+      const savedUser =
+        sessionStorage.getItem("smartestate_user") ||
+        localStorage.getItem("smartestate_user");
       if (savedUser && token) {
         try {
           setUser(JSON.parse(savedUser));
-        } catch (e) {
+        } catch {
           setUser(null);
         }
       } else {
@@ -33,8 +37,10 @@ export default function Navbar() {
     syncUser();
     window.addEventListener("tab-auth-changed", syncUser);
 
-    // Verify session with server if this tab has a token
-    const tabToken = sessionStorage.getItem("smartestate_token");
+    // Verify session with server if token exists
+    const tabToken =
+      sessionStorage.getItem("smartestate_token") ||
+      localStorage.getItem("smartestate_token");
     if (tabToken) {
       fetch("/api/auth/me", {
         headers: { Authorization: `Bearer ${tabToken}` },
@@ -44,9 +50,12 @@ export default function Navbar() {
           if (data && data.success && data.user) {
             setUser(data.user);
             sessionStorage.setItem("smartestate_user", JSON.stringify(data.user));
+            localStorage.setItem("smartestate_user", JSON.stringify(data.user));
           } else {
             sessionStorage.removeItem("smartestate_token");
             sessionStorage.removeItem("smartestate_user");
+            localStorage.removeItem("smartestate_token");
+            localStorage.removeItem("smartestate_user");
             setUser(null);
           }
         })
@@ -189,7 +198,7 @@ export default function Navbar() {
           {user ? (
             <div className="flex items-center gap-3">
               <Link
-                href={user.role === "LAWYER" ? "/lawyer" : "/dashboard"}
+                href={user.role === "ADMIN" ? "/admin" : user.role === "LAWYER" ? "/lawyer" : "/dashboard"}
                 className="flex items-center gap-2.5 px-4 py-2 rounded-full neu-raised text-xs font-bold text-slate-800 hover:text-[#3155FF] transition-all"
               >
                 <div className="w-6 h-6 rounded-full bg-gradient-to-tr from-[#3155FF] to-[#287BFF] flex items-center justify-center text-white text-[10px] font-extrabold">
@@ -197,7 +206,7 @@ export default function Navbar() {
                 </div>
                 <span>{user.name || "My Account"}</span>
                 <span className="text-[10px] text-[#3155FF] font-semibold">
-                  ({user.role === "LAWYER" ? "Advocate" : "Client"})
+                  ({user.role === "ADMIN" ? "Admin" : user.role === "LAWYER" ? "Advocate" : "Client"})
                 </span>
               </Link>
               <button
