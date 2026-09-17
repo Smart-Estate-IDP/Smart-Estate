@@ -1,14 +1,16 @@
 import mongoose, { Schema, Document, Model } from "mongoose";
 
-export type PropertyStatus = "PENDING_APPROVAL" | "PUBLISHED" | "SOLD" | "REJECTED";
+export type PropertyStatus = "PENDING_APPROVAL" | "PUBLISHED" | "SOLD" | "RENTED" | "REJECTED";
 export type VerificationStatus = "UNVERIFIED" | "IN_PROGRESS" | "VERIFIED" | "REJECTED";
 export type PropertyType = "APARTMENT" | "HOUSE" | "VILLA" | "PLOT" | "COMMERCIAL" | "OTHER";
+export type ListingType = "SALE" | "RENT";
 
 export interface IProperty extends Document {
   ownerId: mongoose.Types.ObjectId;
   title: string;
   description: string;
   price: number;
+  listingType: ListingType;
   location: {
     address: string;
     city: string;
@@ -38,6 +40,11 @@ const PropertySchema = new Schema<IProperty>(
     title: { type: String, required: true, trim: true },
     description: { type: String, required: true },
     price: { type: Number, required: true, min: 0 },
+    listingType: {
+      type: String,
+      enum: ["SALE", "RENT"],
+      default: "SALE",
+    },
     location: {
       address: { type: String, required: true },
       city: { type: String, required: true },
@@ -59,8 +66,8 @@ const PropertySchema = new Schema<IProperty>(
     amenities: [{ type: String }],
     status: {
       type: String,
-      enum: ["PENDING_APPROVAL", "PUBLISHED", "SOLD", "REJECTED"],
-      default: "PENDING_APPROVAL",
+      enum: ["PENDING_APPROVAL", "PUBLISHED", "SOLD", "RENTED", "REJECTED"],
+      default: "PUBLISHED",
     },
     verificationStatus: {
       type: String,
@@ -76,7 +83,7 @@ const PropertySchema = new Schema<IProperty>(
   { timestamps: true }
 );
 
-PropertySchema.index({ "location.city": 1, propertyType: 1, price: 1 });
+PropertySchema.index({ listingType: 1, "location.city": 1, propertyType: 1, price: 1 });
 PropertySchema.index({ title: "text", description: "text" });
 
 const Property: Model<IProperty> =
